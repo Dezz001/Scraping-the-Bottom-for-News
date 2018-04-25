@@ -35,18 +35,22 @@ mongoose.connect("mongodb://localhost/scraping-the-bottom-for-news");
 // A GET route to scrape CNN
 app.get("/scrape", function(req, res) {
   // Grab CNN's body
-  axios.get("https://www.cnn.com/").then(function(response) {
+  axios.get("https://www.nytimes.com/").then(function(response) {
     // Load body into Cheerio
     var $ = cheerio.load(response.data);
 
+    // Testing
+    console.log($(".theme-summary").children(".story-heading").text())
+
     // Grab headline-text articles
-    $("cd__headline-text article div h3").each(function(i, element) {
+    $(".theme-summary").each(function(i, element) {
       // Save results in object
       var result = {};
 
       // Save title and links as properties for object
-      result.title = $(this).children("a").text();
+      result.title = $(this).children("a").children("span").text();
       result.link = $(this).children("a").attr("href");
+      console.log(result);
 
       // Create's a new Article from result variable
       db.Article.create(result)

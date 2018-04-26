@@ -3,11 +3,10 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-// Our scraping tools
+// Scraping Tools
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-// Requirments
 var db = require("./models");
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
@@ -17,24 +16,22 @@ var PORT = 3000;
 // Initialize Express
 var app = express();
 
-// Configure middleware
-
-// Use morgan for logging requests
+// Morgan for logging requests
 app.use(logger("dev"));
 
 // Form Handler
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use public folder as a directory
+// Public directory
 app.use(express.static("public"));
 
-// Connect to Mongo DB
+// Connect to Mongodb
 mongoose.connect("mongodb://localhost/scraping-the-bottom-for-news");
 
 
-// A GET route to scrape CNN
+// A GET route to scrape NYT
 app.get("/scrape", function(req, res) {
-  // Grab CNN's body
+  // Grab NYT's body
   axios.get("https://www.nytimes.com/").then(function(response) {
     // Load body into Cheerio
     var $ = cheerio.load(response.data);
@@ -66,7 +63,7 @@ app.get("/scrape", function(req, res) {
     });
 
     // When sucessfully scrapped the message below will be returned
-    res.send("CNN Scrape Completed");
+    res.send("NYTs Scrape Completed");
   });
 });
 
@@ -103,7 +100,7 @@ app.get("/articles/:id", function(req, res) {
 });
 
 
-// Route - Saving/Updating an Articles associated Note.
+// Route - Saving/Updating Articles and associated Notes.
 app.post("/articles/:id", function(req, res) {
   
   db.Note.create(req.body)

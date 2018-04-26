@@ -15,11 +15,14 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
+
+  
   // // Article summary
   // summary: {
   //   type: String,
   //   required: true
   // },
+
 
   // Stores Note id
   note: {

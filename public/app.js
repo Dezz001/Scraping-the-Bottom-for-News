@@ -19,7 +19,7 @@ $(document).on("click", "p", function() {
     method: "GET",
     url: "/articles/" + thisId
   })
-    // and add Note to page
+    // add Note to page
     .then(function(data) {
       console.log(data);
       
@@ -65,5 +65,5 @@ $(document).on("click", "#savenote", function() {
 
   $("#titleinput").val("");
   $("#bodyinput").val("");
-  
+
 });

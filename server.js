@@ -11,7 +11,17 @@ var db = require("./models");
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
 
-var PORT = 3000;
+var PORT =  process.env.PORT || 3000;
+
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
 
 // Initialize Express
 var app = express();
@@ -26,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Connect to Mongodb
-mongoose.connect("mongodb://localhost/scraping-the-bottom-for-news");
+
 
 
 // A GET route to scrape NYT
